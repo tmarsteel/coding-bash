@@ -1,0 +1,13 @@
+#!/bin/bash
+
+repository=$(git remote get-url origin 2> /dev/null | grep -m 1 -P '(/.*\\.git|/([\w\d\-_]+)$)' | sed -E 's/^.+?(\/(.*)\\.git|\/([A-Za-z_\.\-]+)$)/\2\3/')
+
+if [[ $repository == "" ]]
+then
+	exit 0
+fi
+
+branch=$(git branch 2>/dev/null | grep '^*' | colrm 1 2)
+
+# Σ
+printf "Σ $repository > $branch "

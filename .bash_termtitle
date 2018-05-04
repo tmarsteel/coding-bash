@@ -1,0 +1,62 @@
+#!/bin/bash
+
+repositoryRootDir=`basename "$(git rev-parse --show-toplevel 2> /dev/null)"`
+curDir=`pwd`
+codingProjectRootDir="$curDir"
+# Space-Separated: each of these files can signify the root of a coding project (e.g. maven, gradle, cargo, composer, ...)
+codingProjectDetectionFiles=(pom.xml Cargo.toml build.gradle composer.json)
+
+# Attempt to find a coding project
+for managerFile in ${codingProjectDetectionFiles[@]}; do
+	codingProjectRootDir="$curDir"
+    while [ ! -f "$codingProjectRootDir/$managerFile" ]
+    do
+	    if [[ "$codingProjectRootDir" == "/" ]]
+    	then
+	    	codingProjectRootDir=
+		    break
+    	fi
+
+	    codingProjectRootDir=`dirname "$codingProjectRootDir"`
+    done
+
+    if [ "$codingProjectRootDir" != "" ]
+    then
+        break
+    fi
+done
+
+if [ "$repositoryRootDir" == "" ] && [ "$codingProjectRootDir" == "" ];
+then
+	if [ "$curDir" == "`echo ~`" ]
+	then
+		echo -n "@ ~"
+	else
+		echo -n "@ $(basename "$curDir")"
+	fi
+
+	exit 0
+fi
+
+codingProjectRootDir=`basename "$codingProjectRootDir"`
+
+termtitle=""
+
+if [ "$repositoryRootDir" != "" ] && [ "$codingProjectRootDir" == "" ];
+then
+	termtitle="Σ $repositoryRootDir"
+else
+	if [ "$codingProjectRootDir" != "" ] && [ "$repositoryRootDir" == "" ];
+	then
+		termtitle="γ $repositoryRootDir"
+	else
+		if [ "$codingProjectRootDir" == "$repositoryRootDir" ]
+		then
+			termtitle="Σγ $repositoryRootDir"
+		else
+			termtitle="Σ $repositoryRootDir γ $codingProjectRootDir"
+		fi
+	fi
+fi
+
+echo -n $termtitle
