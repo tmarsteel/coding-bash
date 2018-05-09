@@ -1,6 +1,14 @@
 #!/bin/bash
 
-repository=$(basename $(git remote get-url origin 2> /dev/null) | sed -E 's/(.+?)\.git$/\1/')
+repositoryUrl=`git remote get-url origin 2> /dev/null`
+
+if [[ $repositoryUrl == "" ]]
+then
+    exit 0
+fi
+
+repositoryUrlBasename=`basename "$repositoryUrl"`
+repository=`echo "$repositoryUrlBasename" | sed -E 's/(.+?)\.git$/\1/'`
 
 if [[ $repository == "" ]]
 then
