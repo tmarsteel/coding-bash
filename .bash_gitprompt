@@ -1,6 +1,6 @@
 #!/bin/bash
 
-repository=$(git remote get-url origin 2> /dev/null | grep -m 1 -P '(/.*\\.git|/([\w\d\-_]+)$)' | sed -E 's/^.+?(\/(.*)\\.git|\/([A-Za-z_\.\-]+)$)/\2\3/')
+repository=$(basename $(git remote get-url origin 2> /dev/null) | sed -E 's/(.+?)\.git$/\1/')
 
 if [[ $repository == "" ]]
 then
