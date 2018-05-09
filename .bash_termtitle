@@ -38,23 +38,26 @@ then
 	exit 0
 fi
 
-codingProjectRootDir=`basename "$codingProjectRootDir"`
+codingProjectDirname=`basename "$codingProjectRootDir"`
+
+repositoryIndicator="Σ"
+codingProjectIndicator="γ"
 
 termtitle=""
 
-if [ "$repositoryRootDir" != "" ] && [ "$codingProjectRootDir" == "" ];
+if [ "$repositoryRootDir" != "" ] && [ "$codingProjectDirname" == "" ];
 then
-	termtitle="Σ $repositoryRootDir"
+	termtitle="$repositoryIndicator $repositoryRootDir"
 else
-	if [ "$codingProjectRootDir" != "" ] && [ "$repositoryRootDir" == "" ];
+	if [ "$codingProjectDirname" != "" ] && [ "$repositoryRootDir" == "" ];
 	then
-		termtitle="γ $repositoryRootDir"
+		termtitle="$codingProjectIndicator $repositoryRootDir"
 	else
-		if [ "$codingProjectRootDir" == "$repositoryRootDir" ]
+		if [ "$codingProjectDirname" == "$repositoryRootDir" ]
 		then
-			termtitle="Σγ $repositoryRootDir"
+			termtitle="$repositoryIndicator$codingProjectIndicator $repositoryRootDir"
 		else
-			termtitle="Σ $repositoryRootDir γ $codingProjectRootDir"
+			termtitle="$repositoryIndicator $repositoryRootDir $codingProjectIndicator $codingProjectDirname"
 		fi
 	fi
 fi
