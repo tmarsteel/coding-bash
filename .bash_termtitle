@@ -51,7 +51,7 @@ then
 else
 	if [ "$codingProjectDirname" != "" ] && [ "$repositoryRootDir" == "" ];
 	then
-		termtitle="$codingProjectIndicator $repositoryRootDir"
+		termtitle="$codingProjectIndicator $codingProjectDirname"
 	else
 		if [ "$codingProjectDirname" == "$repositoryRootDir" ]
 		then
