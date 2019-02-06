@@ -2,15 +2,25 @@
 
 newBranchName="$1"
 
+set -e
+
+# stash changes
+
+repositoryRootDir=`git rev-parse --show-toplevel`
+
+cd "$repositoryRootDir"
+
 message=
 if [ "$newBranchName" != "" ]
 then
 	message="before starting branch $newBranchName"
 fi
 
-set -ex
+set -x
 
 git stash push --include-untracked --message "$message"
+
+# cleanup & checkout
 
 git checkout master
 git remote prune origin
