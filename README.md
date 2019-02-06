@@ -90,19 +90,22 @@ Try 'basename --help' for more information.
 
 Helpful subcommands are included in the `git-*.sh` files. Add them to your git installation using aliases, e.g.:
 
-    $ git config --global alias.cleanup "!/path/to/the/checkout/git-cleanup.sh"
-    $ git cleanup
+    $ git config --global alias.ready "!/path/to/the/checkout/git-ready.sh"
+    $ git ready
     .... stuff happens ....
     
-#### git-cleanup
+#### git-ready
 
-Can only be run when your working directory is clean (no changes, neither to tracked nor untracked files). Runs a couple of commands that get you prepared create a new branch:
+Starts a new branch from an updated master. Stashes changes in the working copy if any.   
+Runs maintenance commands alongside (`remote prune`, `prune`, `gc`).
 
-* git checkout master
-* git fetch --prune
-* git remote prune origin
-* git prune
-* git gc
+*Example:*
+
+    ~/project (feature/new-button) 
+    $ git ready bugfix
+    ...
+    ~/project (bugfix)
+    $
 
 ## Adjusting
 
