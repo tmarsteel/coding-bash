@@ -7,28 +7,66 @@ set -e
 # stash changes
 
 repositoryRootDir=`git rev-parse --show-toplevel`
+workingDirDirty=0
+if [[ $(git diff --stat) != '' ]]
+then
+	workingDirDirty=1
+fi
 
 cd "$repositoryRootDir"
 
-message=
-if [ "$newBranchName" != "" ]
+if [[ "$workingDirDirty" == "1" ]]
 then
-	message="before starting branch $newBranchName"
+	message=
+	if [ "$newBranchName" != "" ]
+	then
+		message="before starting branch $newBranchName"
+	fi
+
+	git stash push --include-untracked --message "$message"
 fi
 
-set -x
+# find default branch
+defaultBranches=(develop master)
+defaultBranch=
 
-git stash push --include-untracked --message "$message"
+set +e
+
+for defaultBranchName in ${defaultBranches[@]};
+do
+	git rev-parse "origin/$defaultBranchName" 2>/dev/null
+	if [ "$?" == "0" ]
+	then
+		defaultBranch="$defaultBranchName"
+		break
+	fi
+done
+
+set -e
 
 # cleanup & checkout
 
-git checkout master
-git remote prune origin
-git prune
-git gc
+echo "> git checkout \"$defaultBranch\""
+git checkout "$defaultBranch"
+
+echo "> git fetch --prune origin"
+git fetch --prune origin
+
+echo "> git pull"
 git pull
+
+echo "> git prune"
+git prune
+
+echo "> git gc"
+git gc
 
 if [ "$newBranchName" != "" ]
 then
 	git checkout -b "$newBranchName"
+fi
+
+if [ "$workingDirDirty" == "1" ]
+then
+	git stash pop
 fi
