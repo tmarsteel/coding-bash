@@ -15,7 +15,24 @@ then
 	exit 0
 fi
 
-branch=$(git branch 2>/dev/null | grep '^*' | colrm 1 2)
+branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+
+nAheadText=
+nBehindText=
+nAhead=$(git rev-list --count @{u}..HEAD 2>/dev/null)
+if [ "$?" == "0" ]
+then
+	if [ "$nAhead" != "0" ]
+	then
+		nAheadText="+$nAhead"
+	fi
+
+	nBehind=$(git rev-list --count HEAD..@{u} 2>/dev/null)
+	if [ "$nBehind" != "0" ]
+	then
+		nBehindText="-$nBehind"
+	fi
+fi
 
 # Σ
-printf "Σ $repository > $branch "
+echo -n  "\[\e[1;34m\]Σ $repository > $branch\[\e[2;93m\]$nAheadText\[\e[96m\]$nBehindText\[\e[0m\] "
