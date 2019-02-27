@@ -15,7 +15,11 @@ then
 	exit 0
 fi
 
-branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+branch=$(git rev-parse --short --abbrev-ref=loose HEAD 2>/dev/null)
+if [ "$branch" == "HEAD" ]
+then
+	branch=$(git rev-parse --short HEAD 2>/dev/null)
+fi
 
 nAheadText=
 nBehindText=
@@ -45,4 +49,4 @@ then
 fi
 
 # Σ
-echo -n  "\[\e[1;34m\]Σ $repository > $branch$nAheadText$nBehindText$divergedText\[\e[0m\] "
+echo -n  "\[\e[1;34m\]Σ $repository ⑂ $branch$nAheadText$nBehindText$divergedText\[\e[0m\] "
