@@ -19,20 +19,30 @@ branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
 
 nAheadText=
 nBehindText=
+divergedText=
 nAhead=$(git rev-list --count @{u}..HEAD 2>/dev/null)
 if [ "$?" == "0" ]
 then
 	if [ "$nAhead" != "0" ]
 	then
-		nAheadText="+$nAhead"
+		nAheadText="\[\e[2;93m\]+$nAhead"
 	fi
 
 	nBehind=$(git rev-list --count HEAD..@{u} 2>/dev/null)
 	if [ "$nBehind" != "0" ]
 	then
-		nBehindText="-$nBehind"
+		if [ "$nAhead" != "0" ]
+		then
+			# trees in local and remote have diverged (s.o. else force-pushed)
+			# ±
+			nDiverged=$(expr $nAhead + $nBehind)
+			divergedText="\[\e[1;91m\]±$nDiverged"
+			nAheadText=
+		else
+			nBehindText="\[\e[2;96m\]-$nBehind"
+		fi
 	fi
 fi
 
 # Σ
-echo -n  "\[\e[1;34m\]Σ $repository > $branch\[\e[2;93m\]$nAheadText\[\e[96m\]$nBehindText\[\e[0m\] "
+echo -n  "\[\e[1;34m\]Σ $repository > $branch$nAheadText$nBehindText$divergedText\[\e[0m\] "
