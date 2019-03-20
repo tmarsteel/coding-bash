@@ -3,9 +3,7 @@ Various extensions to a bash shell to aid with Git &amp; Coding Projects
 
 ## How to install
 
-Append the contents of the `.bashrc` file in this repository to your own `~/.bashrc`.
-
-Copy the other files to `~` (except `LICENSE`). You should be ready to go.
+Run the `setup.sh` file from any directory. Restart your shell and of you go.
 
 ## Features
 

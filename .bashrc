@@ -1,4 +1,5 @@
 ## PROMP
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 PS1=
 PROMPT_COMMAND=__prompt_command
 
@@ -19,9 +20,9 @@ __prompt_command() {
         PS1+="\[\e[31m\]----- exit code: $exitcode -----\[\e[39m\]\n"
     fi
 
-    PS1+='$(echo -ne "\033]0;$(~/.bash_termtitle)\007")'
+    PS1+='$(echo -ne "\033]0;$($DIR/.bash_termtitle)\007")'
 
-    local gitprompt=`~/.bash_gitprompt`
+    local gitprompt=`$DIR/.bash_gitprompt`
     PS1+='\[\e[1;32m\]\w\n'
     PS1+="$gitprompt"
     PS1+='\[\e[1;35m\]$PERM_INDICATOR\[\e[0m\] '
