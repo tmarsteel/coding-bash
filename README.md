@@ -105,6 +105,22 @@ Runs maintenance commands alongside (`remote prune`, `prune`, `gc`).
     ~/project (bugfix)
     $
 
+#### git-fuckit
+
+Adds all changes in the current directory, amends to the last commit and force-pushes with `--force-with-lease` (prevents data-loss on a race).
+
+#### git-qc
+
+Adds all changes in the git project (not just the current directory) and commits.
+
+If the currently checked out branch follows the pattern \w{2,}-\d+ (usually the pattern of JIRA issue refs), prepends that name to the commit message with a colon, e.g.:
+
+    $ git status
+    On branch PRJ-123
+    $ git qc some message
+    
+Creates a new commit with message "PRJ-123: some message"
+
 ## Adjusting
 
 Here is where you can change things:
