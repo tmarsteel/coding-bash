@@ -58,11 +58,11 @@ git pull
 echo "> git prune"
 git prune
 
-echo "> git gc"
-git gc
-
 echo "> delete merged local branches"
 git branch --merged HEAD | grep -v master | sed -E 's/^\s*(.+?)\s*$/\1/' | xargs --no-run-if-empty git branch --delete
+
+echo "> git gc"
+git gc
 
 if [ "$newBranchName" != "" ]
 then
