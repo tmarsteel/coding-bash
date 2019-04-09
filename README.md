@@ -121,6 +121,10 @@ If the currently checked out branch follows the pattern \w{2,}-\d+ (usually the 
     
 Creates a new commit with message "PRJ-123: some message"
 
+##### git-default-branch
+
+Prints the default branch and exits with status 0. If not in a git repository or no defualt branch is recognized, prints an error message and exits with status 1.
+
 ## Adjusting
 
 Here is where you can change things:

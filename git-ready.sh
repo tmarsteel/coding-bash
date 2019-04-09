@@ -1,6 +1,7 @@
 #!/bin/bash
 
 newBranchName="$1"
+SELFDIR="$( realpath "$(dirname "${BASH_SOURCE[0]}" )")"
 
 set -e
 
@@ -26,23 +27,7 @@ then
 	git stash push --include-untracked --message "$message"
 fi
 
-# find default branch
-defaultBranches=(develop master)
-defaultBranch=
-
-set +e
-
-for defaultBranchName in ${defaultBranches[@]};
-do
-	git rev-parse "origin/$defaultBranchName" 2>/dev/null
-	if [ "$?" == "0" ]
-	then
-		defaultBranch="$defaultBranchName"
-		break
-	fi
-done
-
-set -e
+defaultBranch=`$SELFDIR/git-default-branch.sh`
 
 # cleanup & checkout
 
