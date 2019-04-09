@@ -5,11 +5,17 @@ SELFDIR="$( realpath "$(dirname "${BASH_SOURCE[0]}" )")"
 
 set -e
 
+if [[ "$(git ls-files -u") != ' ]]
+then
+	>&2 echo "You have unresolved conflicts in your wokring directory."
+	exit 127
+fi
+
 # stash changes
 
 repositoryRootDir=`git rev-parse --show-toplevel`
 workingDirDirty=0
-if [[ $(git diff --stat) != '' ]]
+if [[ "$(git diff --stat)" != '' ]]
 then
 	workingDirDirty=1
 fi
