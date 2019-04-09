@@ -1,0 +1,6 @@
+set tabsize 2
+set nowrap
+set morespace
+set autoindent
+set smooth
+set linenumbers

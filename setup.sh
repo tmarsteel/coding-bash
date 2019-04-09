@@ -5,6 +5,9 @@ echo "> setting up ~/.bashrc"
 echo "" >> $HOME/.bashrc
 echo "source $DIR/.bashrc" >> $HOME/.bashrc
 
+echo "> setting up ~/.nanorc"
+ln -s "$DIR/.nanorc" "$HOME/.nanorc"
+
 echo "> applying git aliases"
 "$DIR/apply-git-aliases.sh"
 
