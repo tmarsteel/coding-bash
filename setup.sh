@@ -1,14 +1,14 @@
 #!/bin/bash
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+SELFDIR="$( realpath "$( dirname "${BASH_SOURCE[0]}" )" )"
 
 echo "> setting up ~/.bashrc"
 echo "" >> $HOME/.bashrc
-echo "source $DIR/.bashrc" >> $HOME/.bashrc
+echo "source $SELFDIR/.bashrc" >> $HOME/.bashrc
 
 echo "> setting up ~/.nanorc"
 ln -s "$DIR/.nanorc" "$HOME/.nanorc"
 
 echo "> applying git aliases"
-"$DIR/apply-git-aliases.sh"
+"$SELFDIR/apply-git-aliases.sh"
 
 echo "Done. Restart the shell."

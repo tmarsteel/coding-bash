@@ -48,5 +48,5 @@ then
 	fi
 fi
 
-# Σ
+# Σ ⑂
 echo -n  "\[\e[1;34m\]Σ $repository ⑂ $branch$nAheadText$nBehindText$divergedText\[\e[0m\] "

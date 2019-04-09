@@ -125,6 +125,14 @@ Creates a new commit with message "PRJ-123: some message"
 
 Prints the default branch and exits with status 0. If not in a git repository or no defualt branch is recognized, prints an error message and exits with status 1.
 
+##### git-update
+
+Updates the current branch from the default branch und pushes the changes. The method can be chosen (`--merge` or `--rebase`), the default is rebase.
+
+Unless there are conflicts after merging or rebasing, the changes are pushed to the tracking branch.
+
+If done with rebase, the push to the remote is done with the `--force-with-lease` flag to make sure the remote branch did not change.
+
 ## Adjusting
 
 Here is where you can change things:
