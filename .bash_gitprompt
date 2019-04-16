@@ -2,15 +2,20 @@
 
 repositoryUrl=`git remote get-url origin 2> /dev/null`
 
-if [[ $repositoryUrl == "" ]]
+if [[ "$repositoryUrl" == "" ]]
 then
-    exit 0
+    repositoryUrl=`basename "$(git rev-parse --show-toplevel 2> /dev/null)"`
+
+    if [[ "$repositoryUrl" == "" ]]
+    then
+    	  exit
+    fi
 fi
 
 repositoryUrlBasename=`basename "$repositoryUrl"`
 repository=`echo "$repositoryUrlBasename" | sed -E 's/(.+?)\.git$/\1/'`
 
-if [[ $repository == "" ]]
+if [[ "$repository" == "" ]]
 then
 	exit 0
 fi
