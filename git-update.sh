@@ -65,7 +65,7 @@ case "$method" in
 		;;
 	"--rebase")
 		echo "> git push --force-with-lease"
-		git push "--force-with-lease"
+		git push --force-with-lease
 		;;
 	*)
 		>&2 echo "Unknown internal error"

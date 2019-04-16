@@ -133,6 +133,12 @@ Unless there are conflicts after merging or rebasing, the changes are pushed to 
 
 If done with rebase, the push to the remote is done with the `--force-with-lease` flag to make sure the remote branch did not change.
 
+##### git-squash
+
+Finds the commits between the remote default branch and HEAD. Combines them into one commit with the message as the eldest and gives
+you a chance to edit that message (`--edit` flag to `git commit`). Then pushes using `--force-with-lease` unless the `--no-push` flag
+is given.
+
 ## Adjusting
 
 Here is where you can change things:

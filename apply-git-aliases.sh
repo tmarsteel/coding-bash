@@ -6,3 +6,4 @@ git config --global alias.fuckit "!git add -A && git commit --amend --no-edit &&
 git config --global alias.qc "!$DIR/git-qc.sh"
 git config --global alias.default-branch "!$DIR/git-default-branch.sh"
 git config --global alias.update "!$DIR/git-update.sh"
+git config --global alias.squash "!$DIR/git-squash.sh"

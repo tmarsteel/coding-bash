@@ -1,11 +1,11 @@
 #!/bin/bash
 
 newBranchName="$1"
-SELFDIR="$( realpath "$(dirname "${BASH_SOURCE[0]}" )")"
+SELFDIR="$(realpath "$(dirname "${BASH_SOURCE[0]}" )")"
 
 set -e
 
-if [[ "$(git ls-files -u") != ' ]]
+if [[ "$(git ls-files -u)" != "" ]]
 then
 	>&2 echo "You have unresolved conflicts in your wokring directory."
 	exit 127
@@ -14,13 +14,14 @@ fi
 # stash changes
 
 repositoryRootDir=`git rev-parse --show-toplevel`
+
+cd "$repositoryRootDir"
+
 workingDirDirty=0
 if [[ "$(git diff --stat)" != '' ]]
 then
 	workingDirDirty=1
 fi
-
-cd "$repositoryRootDir"
 
 if [[ "$workingDirDirty" == "1" ]]
 then
@@ -37,7 +38,7 @@ defaultBranch=`$SELFDIR/git-default-branch.sh`
 
 # cleanup & checkout
 
-echo "> git checkout \"$defaultBranch\""
+echo "> git checkout $defaultBranch"
 git checkout "$defaultBranch"
 
 echo "> git fetch --prune origin"
@@ -55,12 +56,12 @@ git branch --merged HEAD | grep -v master | sed -E 's/^\s*(.+?)\s*$/\1/' | xargs
 echo "> git gc"
 git gc
 
-if [ "$newBranchName" != "" ]
+if [[ "$newBranchName" != "" ]]
 then
 	git checkout -b "$newBranchName"
 fi
 
-if [ "$workingDirDirty" == "1" ]
+if [[ "$workingDirDirty" == "1" ]]
 then
 	git stash pop
 fi
