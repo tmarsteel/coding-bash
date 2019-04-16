@@ -25,7 +25,7 @@ Adds all changes in the current directory, amends to the last commit and force-p
 
 ### git-qc
 
-Adds all changes in the git project (not just the current directory) and commits.
+Adds all changes in the git project (not just the current directory), commits and pushes (configuring an upstream if necessary).
 
 If the currently checked out branch follows the pattern \w{2,}-\d+ (usually the pattern of JIRA issue refs), prepends that name to the commit message with a colon, e.g.:
 

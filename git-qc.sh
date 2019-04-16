@@ -18,3 +18,15 @@ git add "$gitRootDir"
 
 echo "> git commit -m $prefix$message"
 git commit -m "$prefix$message"
+
+set +e
+
+upstream=$(git rev-parse @{u} 2> /dev/null)
+if [[ "$?" != 0 ]]
+then
+	echo "> git push --set-upstream origin $currentBranchName"
+	git push --set-upstream origin "$currentBranchName"
+else
+  echo "> git push --force-with-lease"
+	git push --force-with-lease
+fi
