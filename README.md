@@ -15,10 +15,10 @@ To update, simply do `git pull`. If you care about the git subcommands, also run
 
 * Displays name current directory
 * when you are within the directory tree of a git repository or a directory that is managed by a build tool, indicates that:
-** the git root is indicated using `Σ` (adjustable, see below), e.g. `Σ some-repository`
-** the build tool root is indicated using `γ` (adjustable, see below), e.g. `γ some-maven-project`
-** when git root and build tool root differ, both are displayed separately, e.g. `Σ my-app-server γ submodule1`
-** when they are equal, the two indicators are combined: `Σγ my-app-server`
+  * the git root is indicated using `Σ` (adjustable, see below), e.g. `Σ some-repository`
+  * the build tool root is indicated using `γ` (adjustable, see below), e.g. `γ some-maven-project`
+  * when git root and build tool root differ, both are displayed separately, e.g. `Σ my-app-server γ submodule1`
+  * when they are equal, the two indicators are combined: `Σγ my-app-server`
 
 The git root is determined using `git rev-parse --show-toplevel`, see https://git-scm.com/docs/git-rev-parse.
 
