@@ -20,7 +20,7 @@ echo "> git fetch"
 git fetch
 
 defaultBranch="$("$SELFDIR/git-default-branch.sh")@{upstream}"
-currentBranch="$(git name-rev --name-only HEAD)"
+currentBranch="$(git symbolic-ref --short HEAD)"
 
 if [[ "$defaultBranch" == "$currentBranch" ]]
 then

@@ -22,7 +22,7 @@ esac
 
 set -e
 defaultBranch="$( "$SELFDIR/git-default-branch.sh" )"
-currentBranch="$(git name-rev --name-only HEAD)"
+currentBranch="$(git symbolic-ref --short HEAD)"
 
 if [[ "$defaultBranch" == "$currentBranch" ]]
 then
