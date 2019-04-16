@@ -26,7 +26,7 @@ currentBranch="$(git name-rev --name-only HEAD)"
 
 if [[ "$defaultBranch" == "$currentBranch" ]]
 then
-	echo "\[\e[33m\]Already on default branch $defaultBranch\[\e[0m\]"
+	>&2 echo "Already on default branch $defaultBranch"
 	exit
 fi
 
@@ -54,7 +54,7 @@ esac
 unmerged="$(git ls-files -u)"
 if [[ "$unmerged" != "" ]]
 then
-	echo "\[\e[1;31m\]You have unresolved conflicts!\[\e[0m\]"
+	>&2 echo "You have unresolved conflicts!"
 	exit
 fi
 
