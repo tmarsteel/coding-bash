@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+set -e
 
 gitRootDir=$(git rev-parse --show-toplevel 2> /dev/null)
 currentBranchName=$(git name-rev --no-undefined --name-only HEAD)
@@ -13,5 +13,8 @@ fi
 
 message=$@
 
+echo "> git add $gitRootDir"
 git add "$gitRootDir"
+
+echo "> git commit -m $prefix$message"
 git commit -m "$prefix$message"
