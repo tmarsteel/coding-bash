@@ -19,7 +19,7 @@ repositoryRootDir="$(git rev-parse --show-toplevel)"
 echo "> git fetch"
 git fetch
 
-defaultBranch="$("$SELFDIR/git-default-branch.sh")@{upstream}"
+defaultBranch="$("$SELFDIR/git-default-branch.sh")"
 currentBranch="$(git symbolic-ref --short HEAD)"
 
 if [[ "$defaultBranch" == "$currentBranch" ]]
@@ -27,7 +27,7 @@ then
 	>&2 echo "Already on the default branch $defaultBranch. Cannot auto-squash."
 fi
 
-mergebase="$(git merge-base "$defaultBranch" HEAD)"
+mergebase="$(git merge-base "$defaultBranch@{upstream}" HEAD)"
 nCommits="$(git rev-list --count "$mergebase"..HEAD)"
 
 if [[ "$nCommits" == "0" || "$nCommits" == "1" ]]
