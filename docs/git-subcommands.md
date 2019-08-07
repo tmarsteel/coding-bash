@@ -52,3 +52,23 @@ If done with rebase, the push to the remote is done with the `--force-with-lease
 Finds the commits between the remote default branch and HEAD. Combines them into one commit with the message as the eldest and gives
 you a chance to edit that message (`--edit` flag to `git commit`). Then pushes using `--force-with-lease` unless the `--no-push` flag
 is given.
+
+If you also specify the `--rebase` flag, the squashed commit will be based on the most recent upstream of the default branch.
+
+For example, consider this commit history:
+
+          o--o--o--C
+         /
+     o--A--o--B
+
+If you now run `git squash`, the commits A^1..C will be squashed, resulting in this tree:
+
+         C'
+        /
+    o--A--o--B
+
+If, instead, you run `git squash --rebase`, the diff A^..C will be commited onto A, resultin in this tree:
+
+               C'
+              /
+    o--A--o--B

@@ -3,11 +3,29 @@
 SELFDIR="$(realpath "$(dirname "${BASH_SOURCE[0]}" )")"
 
 PUSH=1
-if [[ "$1" == "--no-push" ]]
-then
-	PUSH=0
-	shift
-fi
+REBASE=0
+
+while [[ "$#" != "0" ]]
+do
+	found=0
+	case "$1" in
+		"--no-push")
+			PUSH=0
+			found=1
+			shift
+			;;
+		"--rebase")
+			REBASE=1
+			found=1
+			shift
+			;;
+	esac
+
+	if [[ "$found" == "0" ]]
+	then
+		break
+	fi
+done
 
 set -e
 
@@ -37,16 +55,36 @@ fi
 
 nToSquash=$(expr $nCommits - 1)
 
+if [[ "$REBASE" == "1" ]]
+then
+		mergebase="$defaultBranch@{upstream}"
+fi
+
+commitMessageFile="$(mktemp)"
+git log --format=%B -n $nCommits HEAD > "$commitMessageFile"
+
 echo "Squashing $nToSquash commits onto $(git name-rev --name-only --always $mergebase)"
 
-echo "> git reset --soft HEAD~$nToSquash"
-git reset --soft HEAD~$nToSquash
+if [[ "$REBASE" == "1" ]]
+then
+	echo "> git reset --soft $mergebase"
+	git reset --soft "$mergebase"
+else
+	echo "> git reset --soft HEAD~$nToSquash"
+	git reset --soft HEAD~$nToSquash
+fi
 
 echo "> git add $respositoryRootDir"
 git add "$repositoryRootDir"
 
-echo "> git commit --amend --edit"
-git commit --amend --edit
+if [[ "$REBASE" == "1" ]]
+then
+	echo "> git commit"
+  git commit --edit "--file=$commitMessageFile"
+else
+	echo "> git commit --amend"
+	git commit --amend --edit "--file=$commitMessageFile"
+fi
 
 if [[ "$PUSH" == "1" ]]
 then
