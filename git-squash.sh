@@ -65,25 +65,18 @@ git log --format=%B -n $nCommits HEAD > "$commitMessageFile"
 
 echo "Squashing $nToSquash commits onto $(git name-rev --name-only --always $mergebase)"
 
-if [[ "$REBASE" == "1" ]]
-then
-	echo "> git reset --soft $mergebase"
-	git reset --soft "$mergebase"
-else
-	echo "> git reset --soft HEAD~$nToSquash"
-	git reset --soft HEAD~$nToSquash
-fi
+echo "> git reset --soft HEAD~$nToSquash"
+git reset --soft HEAD~$nToSquash
 
 echo "> git add $respositoryRootDir"
 git add "$repositoryRootDir"
 
+echo "> git commit --amend"
+git commit --amend --edit "--file=$commitMessageFile"
+
 if [[ "$REBASE" == "1" ]]
 then
-	echo "> git commit"
-  git commit --edit "--file=$commitMessageFile"
-else
-	echo "> git commit --amend"
-	git commit --amend --edit "--file=$commitMessageFile"
+	git rebase "origin/$defaultBranch"
 fi
 
 if [[ "$PUSH" == "1" ]]
