@@ -39,6 +39,10 @@ Creates a new commit with message "PRJ-123: some message"
 
 Prints the default branch and exits with status 0. If not in a git repository or no defualt branch is recognized, prints an error message and exits with status 1.
 
+### git reword
+
+Change the commit message of the HEAD commit.
+
 ### git-update
 
 Updates the current branch from the default branch und pushes the changes. The method can be chosen (`--merge` or `--rebase`), the default is rebase.
@@ -67,7 +71,7 @@ If you now run `git squash`, the commits A^1..C will be squashed, resulting in t
         /
     o--A--o--B
 
-If, instead, you run `git squash --rebase`, the diff A^..C will be commited onto A, resultin in this tree:
+If, instead, you run `git squash --rebase`, the diff A^..C will be commited onto B, resultin in this tree:
 
                C'
               /

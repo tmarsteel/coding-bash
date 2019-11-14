@@ -98,6 +98,7 @@ Helpful subcommands are included in the `git-*.sh` files. See [docs/git-subcomma
 * git default-branch
 * git update
 * git squash
+* git reword
 
 ## Adjusting
 
