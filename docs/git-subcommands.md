@@ -8,8 +8,13 @@ Helpful subcommands are included in the `git-*.sh` files. Add them to your git i
     
 ### git-ready
 
-Starts a new branch from an updated master. Stashes changes in the working copy if any.   
-Runs maintenance commands alongside (`remote prune`, `prune`, `gc`).
+To be used when you open a codebase and want to start development on a new feature.
+
+1. Stashes changes in the working copy if any.   
+2. fetches upstream changes (`git fetch`)
+3. Runs maintenance commands (`remote prune`, `prune`, `gc`), deletes local branches fully merged into the default branch.
+4. Starts a new branch from the updated default branch (or checks out the existing remote branch)
+5. unstashes changes saved earlier
 
 *Example:*
 
@@ -71,7 +76,7 @@ If you now run `git squash`, the commits A^1..C will be squashed, resulting in t
         /
     o--A--o--B
 
-If, instead, you run `git squash --rebase`, the diff A^..C will be commited onto B, resultin in this tree:
+If, instead, you run `git squash --rebase`, the diff A^1..C will be commited onto B, resultin in this tree:
 
                C'
               /

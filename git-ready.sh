@@ -51,14 +51,22 @@ echo "> git prune"
 git prune
 
 echo "> delete merged local branches"
-git branch --merged HEAD | grep -v master | sed -E 's/^\s*(.+?)\s*$/\1/' | xargs --no-run-if-empty git branch --delete
+git branch --merged HEAD | grep -v "$defaultBranch" | sed -E 's/^\s*(.+?)\s*$/\1/' | xargs --no-run-if-empty git branch --delete
 
 echo "> git gc"
 git gc
 
 if [[ "$newBranchName" != "" ]]
 then
-	git checkout -b "$newBranchName"
+	set +e
+	git ls-remote --exit-code --heads origin "$newBranchName"
+	if [[ "$?" == "0" ]]
+	then
+	  # there already is a remote branch, checkt that one out
+		git checkout -b "$newBranchName" "origin/$newBranchName"
+	else
+		git checkout -b "$newBranchName"
+	fi
 fi
 
 if [[ "$workingDirDirty" == "1" ]]
