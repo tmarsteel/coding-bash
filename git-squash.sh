@@ -34,7 +34,7 @@ repositoryRootDir="$(git rev-parse --show-toplevel)"
 # causes an abort if working dir is dirty
 "$SELFDIR/git-dirty.sh"
 
-echo "> git fetch"
+echo -e "\e[2;96m> git fetch\e[0m"
 git fetch
 
 defaultBranch="$("$SELFDIR/git-default-branch.sh")"
@@ -65,13 +65,13 @@ git log --format=%B -n $nCommits HEAD > "$commitMessageFile"
 
 echo "Squashing $nToSquash commits onto $(git name-rev --name-only --always $mergebase)"
 
-echo "> git reset --soft HEAD~$nToSquash"
+echo -e "\e[2;96m> git reset --soft HEAD~$nToSquash\e[0m"
 git reset --soft HEAD~$nToSquash
 
-echo "> git add $respositoryRootDir"
+echo -e "\e[2;96m> git add $respositoryRootDir\e[0m"
 git add "$repositoryRootDir"
 
-echo "> git commit --amend"
+echo -e "\e[2;96m> git commit --amend\e[0m"
 git commit --amend --edit "--file=$commitMessageFile"
 
 if [[ "$REBASE" == "1" ]]
@@ -81,6 +81,6 @@ fi
 
 if [[ "$PUSH" == "1" ]]
 then
-	echo "> git push --force-with-lease"
+	echo -e "\e[2;96m> git push --force-with-lease\e[0m"
   git push --force-with-lease
 fi

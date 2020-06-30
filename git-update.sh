@@ -33,17 +33,17 @@ fi
 # set -e causes an abort if working dir is dirty.
 "$SELFDIR/git-dirty.sh"
 
-echo "> git fetch"
+echo -e "\e[2;96m> git fetch\e[0m"
 git fetch
 
 case "$method" in
 	"--merge")
-		echo "> git merge origin/$defaultBranch"
+		echo -e "\e[2;96m> git merge origin/$defaultBranch\e[0m"
 		git merge "origin/$defaultBranch"
 		;;
 
 	"--rebase")
-		echo "> git rebase origin/$defaultBranch"
+		echo -e "\e[2;96m> git rebase origin/$defaultBranch\e[0m"
 		git rebase "origin/$defaultBranch"
 		;;
 	*)
@@ -54,17 +54,17 @@ esac
 unmerged="$(git ls-files -u)"
 if [[ "$unmerged" != "" ]]
 then
-	>&2 echo "You have unresolved conflicts!"
+	>&2 echo -e "\e[1;31mYou have unresolved conflicts!\e[0m"
 	exit
 fi
 
 case "$method" in
 	"--merge")
-		echo "> git push"
+		echo -e "\e[2;96m> git push\e[0m"
 		git push
 		;;
 	"--rebase")
-		echo "> git push --force-with-lease"
+		echo -e "\e[2;96m> git push --force-with-lease\e[0m"
 		git push --force-with-lease
 		;;
 	*)

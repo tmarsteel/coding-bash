@@ -25,17 +25,17 @@ fi
 
 message=$@
 
-echo "> git add $gitRootDir"
+echo -e "\e[2;96m> git add $gitRootDir\e[0m"
 git add "$gitRootDir"
 
-echo "> git commit -m $prefix$message"
+echo -e "\e[2;96m> git commit -m $prefix$message\e[0m"
 git commit -m "$prefix$message"
 
 set +e
 
 if [[ "$upstream" == "" ]]
 then
-	echo "> git push --set-upstream origin $currentBranchName"
+	echo -e "\e[2;96m> git push --set-upstream origin $currentBranchName\e[0m"
 	git push --set-upstream origin "$currentBranchName"
 else
   git fetch origin "$upstream"
@@ -43,15 +43,15 @@ else
   if [[ "$upstreamSha" != "$localShaBefore" ]]
   then
   	echo -e "\e[1;31mThe upstream has changed. These commits have been added/removed:\e[0m"
-  	echo "> git --no-pager log $localShaBefore..$upstreamSha"
+  	echo -e "\e[2;96m> git --no-pager log $localShaBefore..$upstreamSha\e[0m"
   	git --no-pager log "$localShaBefore..$upstreamSha"
   	echo
   	echo -e "\e[1;31mRebase onto these? [Y/n]\e[0m"
   	doRebase=$(askYesNo)
-  	echo 
+  	echo
   	if [[ "$doRebase" == "true" ]]
   	then
-  		echo "> git rebase --onto $upstream"
+  		echo -e "\e[2;96m> git rebase --onto $upstream\e[0m"
   		git rebase --onto "$upstream"
 
   		unmerged="$(git ls-files -u)"
@@ -62,6 +62,6 @@ else
   		fi
   	fi
   fi
-  echo "> git push --force-with-lease=$upstreamSha"
+  echo -e "\e[2;96m> git push --force-with-lease=$upstreamSha\e[0m"
 	git push "--force-with-lease=$upstreamSha"
 fi

@@ -7,7 +7,7 @@ set -e
 
 if [[ "$(git ls-files -u)" != "" ]]
 then
-	>&2 echo "You have unresolved conflicts in your wokring directory."
+	>&2 echo -e "\e[1;31mYou have unresolved conflicts in your wokring directory.\e[0m"
 	exit 127
 fi
 
@@ -38,22 +38,22 @@ defaultBranch=`$SELFDIR/git-default-branch.sh`
 
 # cleanup & checkout
 
-echo "> git checkout $defaultBranch"
+echo -e "\e[2;96m> git checkout $defaultBranch\e[0m"
 git checkout "$defaultBranch"
 
-echo "> git fetch --prune origin"
+echo -e "\e[2;96m> git fetch --prune origin\e[0m"
 git fetch --prune origin
 
-echo "> git pull"
+echo -e "\e[2;96m> git pull\e[0m"
 git pull
 
-echo "> git prune"
+echo -e "\e[2;96m> git prune\e[0m"
 git prune
 
-echo "> delete merged local branches"
+echo -e "\e[2;96m> delete merged local branches\e[0m"
 git branch --merged HEAD | grep -v "$defaultBranch" | sed -E 's/^\s*(.+?)\s*$/\1/' | xargs --no-run-if-empty git branch --delete
 
-echo "> git gc"
+echo -e "\e[2;96m> git gc\e[0m"
 git gc
 
 if [[ "$newBranchName" != "" ]]
