@@ -32,13 +32,35 @@ Adds all changes in the current directory, amends to the last commit and force-p
 
 Adds all changes in the git project (not just the current directory), commits and pushes (configuring an upstream if necessary).
 
-If the currently checked out branch follows the pattern \w{2,}-\d+ (usually the pattern of JIRA issue refs), prepends that name to the commit message with a colon, e.g.:
+If the name of the currently checked out branch follows the pattern \w{2,}-\d+ (usually the pattern of JIRA issue refs), prepends that name to the commit message with a colon, e.g.:
 
     $ git status
     On branch PRJ-123
     $ git qc some message
     
 Creates a new commit with message "PRJ-123: some message"
+
+-----
+
+If the upstream branch is ahead of the local branch, will ask you whether you want to rebase the commit onto the upstream, e.g.:
+
+    $ git rev-list --count HEAD..@{u}
+    2
+    $ git qc Test commit
+    <commit output>
+    The upstream has changed. These commits have been added/removed:
+    <output of git log for the commits the upstream is ahead>
+    Rebase onto these? [Y/n]
+    Y
+    > git rebase --onto @{u}
+    > git push --force-with-lease
+
+If that rebase produces conflicts, the script will not attempt anything else and quit with a non-zero exit status. After the conflicts
+have been resolved you can complete action with
+
+    $ git add -a
+    $ git rebase --continue
+    $ git push --force-with-lease
 
 ### git-default-branch
 
