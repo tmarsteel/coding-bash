@@ -38,7 +38,7 @@ then
 	echo -e "\e[2;96m> git push --set-upstream origin $currentBranchName\e[0m"
 	git push --set-upstream origin "$currentBranchName"
 else
-  git fetch origin "$upstream"
+  git fetch
   upstreamSha="$(git rev-parse --verify -q "$upstream" 2> /dev/null)"
   if [[ "$upstreamSha" != "$localShaBefore" ]]
   then
