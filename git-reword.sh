@@ -10,11 +10,14 @@ branch=$(git rev-parse --short --abbrev-ref=loose HEAD 2>/dev/null)
 if [[ "$branch" != "HEAD" ]]
 then
 	upstream="$(git branch --points-at HEAD "--format=%(upstream)" "$branch")"
-  localSha="$(git rev-parse --verify -q --branch "$branch")"
-  remoteSha="$(git rev-parse --verify -q --branch "$upstream")"
-  if [[ "$localSha" == "$remoteSha" ]]
-  then
-  	push=true
+	if [[ "$upstream" != "" ]]
+	then
+	  localSha="$(git rev-parse --verify -q --branch "$branch")"
+  	remoteSha="$(git rev-parse --verify -q --branch "$upstream")"
+	  if [[ "$localSha" == "$remoteSha" ]]
+  	then
+  		push=true
+  	fi
   fi
 fi
 
