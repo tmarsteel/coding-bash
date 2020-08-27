@@ -63,13 +63,16 @@ then
 	if [[ "$?" == "0" ]]
 	then
 	  # there already is a remote branch, checkt that one out
+	  echo -e "\e[2;96m> git checkout -b $newBranchName origin/$newBranchName\e[0m"
 		git checkout -b "$newBranchName" "origin/$newBranchName"
 	else
+	  echo -e "\e[2;96m> git checkout -b $newBranchName\e[0m"
 		git checkout -b "$newBranchName"
 	fi
 fi
 
 if [[ "$workingDirDirty" == "1" ]]
 then
+  echo -e "\e[2;96m> git stash pop\e[0m"
 	git stash pop
 fi
