@@ -53,8 +53,11 @@ git prune
 echo -e "\e[2;96m> delete merged local branches\e[0m"
 git branch --merged HEAD | grep -v "$defaultBranch" | sed -E 's/^\s*(.+?)\s*$/\1/' | xargs --no-run-if-empty git branch --delete
 
-echo -e "\e[2;96m> git gc\e[0m"
-git gc
+if [[ "$(($RANDOM % 4))" == "0" ]]
+then
+	echo -e "\e[2;96m> git gc\e[0m"
+	git gc
+fi
 
 if [[ "$newBranchName" != "" ]]
 then
