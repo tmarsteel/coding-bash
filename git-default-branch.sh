@@ -1,6 +1,6 @@
 #!/bin/bash
 
-defaultBranches=(develop master)
+defaultBranches=(develop master main)
 
 for defaultBranchName in ${defaultBranches[@]};
 do

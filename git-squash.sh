@@ -50,6 +50,7 @@ nCommits="$(git rev-list --count "$mergebase"..HEAD)"
 
 if [[ "$nCommits" == "0" || "$nCommits" == "1" ]]
 then
+  echo "Nothing to squash"
 	exit 0
 fi
 
