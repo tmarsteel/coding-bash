@@ -100,6 +100,19 @@ Helpful subcommands are included in the `git-*.sh` files. See [docs/git-subcomma
 * git squash
 * git reword
 
+### GLaDOS greeting
+
+If you install `fortune` and `cowsay`, you can set up your terminal to greet you with an ASCII art
+of GLadDOS and a quote of her:
+
+```bash
+sudo ln -s "$(pwd)/greeting/glados" /usr/share/games/fortunes/glados
+sudo ln -s "$(pwd)/greeting/glados.dat" /usr/share/games/fortunes/glados.dat
+sudo ln -s "$(pwd)/greeting/glados.cow" /usr/share/cowsay/cows/glados
+echo "fortune -s glados | cowsay -f glados -W 80" >> ~/.bashrc
+```
+
+
 ## Adjusting
 
 Here is where you can change things:
