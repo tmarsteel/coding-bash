@@ -18,12 +18,14 @@ upstream="$(git branch --points-at HEAD "--format=%(upstream)" "$currentBranchNa
 localShaBefore="$(git rev-parse --verify -q HEAD)"
 
 prefix=
-if [[ "$currentBranchName" =~ ^[A-Za-z0-9]{2,}-[0-9]+$ ]]
+if [[ "$currentBranchName" =~ ^([A-Za-z0-9]{2,}-[0-9]+)(\W|$) ]]
 then
-	prefix="$currentBranchName: "
+	prefix="${BASH_REMATCH[1]}: "
 fi
 
 message=$@
+echo $prefix
+exit
 
 echo -e "\e[2;96m> git add $gitRootDir\e[0m"
 git add "$gitRootDir"
