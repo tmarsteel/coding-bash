@@ -34,7 +34,7 @@ if [ "$?" == "0" ]
 then
 	if [ "$nAhead" != "0" ]
 	then
-		nAheadText="\[\e[2;93m\]+$nAhead"
+		nAheadText="\[\e[2;96m\]+$nAhead"
 	fi
 
 	nBehind=$(git rev-list --count HEAD..@{u} 2>/dev/null)
@@ -48,7 +48,7 @@ then
 			divergedText="\[\e[1;91m\]±$nDiverged"
 			nAheadText=
 		else
-			nBehindText="\[\e[2;96m\]-$nBehind"
+			nBehindText="\[\e[2;93m\]-$nBehind"
 		fi
 	fi
 fi
