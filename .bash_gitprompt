@@ -1,57 +1,87 @@
 #!/bin/bash
 
+function join_by {
+    local delimiter="$1"
+    local result=""
+	shift
+	for part in "$@"
+	do
+        if [[ "$part" == "" ]]
+        then
+            continue
+        fi
+
+        if [[ "$result" == "" ]]
+		then
+			result="$part"
+		else
+			result="$result$delimiter$part"
+		fi
+	done
+	echo "$result"
+}
+
 repositoryUrl=`git remote get-url origin 2> /dev/null`
 
 if [[ "$repositoryUrl" == "" ]]
 then
-    repositoryUrl=`basename "$(git rev-parse --show-toplevel 2> /dev/null)"`
-
-    if [[ "$repositoryUrl" == "" ]]
-    then
-    	  exit
-    fi
+	repositoryUrl=`basename "$(git rev-parse --show-toplevel 2> /dev/null)"`
 fi
 
-repositoryUrlBasename=`basename "$repositoryUrl"`
-repository=`echo "$repositoryUrlBasename" | sed -E 's/(.+?)\.git$/\1/'`
-
-if [[ "$repository" == "" ]]
+repositoryPart=""
+if [[ "$repositoryUrl" != "" ]]
 then
-	exit 0
-fi
+	repositoryUrlBasename=`basename "$repositoryUrl"`
+	repository=`echo "$repositoryUrlBasename" | sed -E 's/(.+?)\.git$/\1/'`
 
-branch=$(git rev-parse --short --abbrev-ref=loose HEAD 2>/dev/null)
-if [ "$branch" == "HEAD" ]
-then
-	branch=$(git rev-parse --short HEAD 2>/dev/null)
-fi
-
-nAheadText=
-nBehindText=
-divergedText=
-nAhead=$(git rev-list --count @{u}..HEAD 2>/dev/null)
-if [ "$?" == "0" ]
-then
-	if [ "$nAhead" != "0" ]
+	if [[ "$repository" != "" ]]
 	then
-		nAheadText="\[\e[2;96m\]+$nAhead"
-	fi
 
-	nBehind=$(git rev-list --count HEAD..@{u} 2>/dev/null)
-	if [ "$nBehind" != "0" ]
-	then
-		if [ "$nAhead" != "0" ]
+		branch=$(git rev-parse --short --abbrev-ref=loose HEAD 2>/dev/null)
+		if [ "$branch" == "HEAD" ]
 		then
-			# trees in local and remote have diverged (s.o. else force-pushed)
-			# ±
-			nDiverged=$(expr $nAhead + $nBehind)
-			divergedText="\[\e[1;91m\]±$nDiverged"
-			nAheadText=
-		else
-			nBehindText="\[\e[2;93m\]-$nBehind"
+				branch=$(git rev-parse --short HEAD 2>/dev/null)
 		fi
-	fi
+
+		nAheadText=
+		nBehindText=
+		divergedText=
+		nAhead=$(git rev-list --count @{u}..HEAD 2>/dev/null)
+		if [ "$?" == "0" ]
+		then
+			if [ "$nAhead" != "0" ]
+			then
+				nAheadText="\[\e[2;96m\]+$nAhead"
+			fi
+
+			nBehind=$(git rev-list --count HEAD..@{u} 2>/dev/null)
+			if [ "$nBehind" != "0" ]
+			then
+				if [ "$nAhead" != "0" ]
+				then
+					# trees in local and remote have diverged (s.o. else force-pushed)
+					# ±
+					nDiverged=$(expr $nAhead + $nBehind)
+					divergedText="\[\e[1;91m\]±$nDiverged"
+					nAheadText=
+				else
+					nBehindText="\[\e[1;91m\]-$nBehind"
+				fi
+			fi
+		fi
+		repositoryPart="\[\e[1;34m\]Σ $repository ⑂ $branch$nAheadText$nBehindText$divergedText"
+  fi
 fi
 
-# Σ ⑂
-echo -n  "\[\e[1;34m\]Σ $repository ⑂ $branch$nAheadText$nBehindText$divergedText\[\e[0m\] "
+prodWarning=""
+if [[ "$AWS_PROFILE" =~ prod ]]
+then
+	prodWarning="\[\e[1;91m\]!PROD!"
+fi
+
+result=$(join_by "\[\e[0m\] " "$repositoryPart" "$prodWarning")
+if [[ "$result" != "" ]]
+then
+    # Σ ⑂
+    echo -n "$result "
+fi
