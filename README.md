@@ -116,6 +116,14 @@ echo "fortune -s glados | cowsay -f glados -W 80" >> ~/.bashrc
 
 Openrazer is installed, together with a cronjob-ed script that updates the coloring: `razer/keyboard.py`.
 
+### Date Format in the system panel
+
+Installs a gnome extension to customize the panel date format. The format is such that it shifts
+the date to the left so that its not obscured by a webcam mounted at the center of your monitor.
+If a built-in display (= from laptop) is the primary display, that shifting is not applied.
+
+The builtin-display-is-primary check is done periodically by a cronjob so that it adapts automatically
+when you (dis)connect your laptop to/from a monitor.
 
 ## Adjusting
 
@@ -131,3 +139,5 @@ Here is where you can change things:
 * coding project detection: to add support for a new build tool, add the file specific to that tool (e.g. `package.json` for NPM)
   to this line in `.bash_termtitle`: `codingProjectDetectionFiles=(pom.xml Cargo.toml build.gradle composer.json)`
 * Default branch detection in git subcommands: `git-default-branch.sh`
+* Panel Date Format behaviour: `set-panel-date-format.sh`
+* Razer keyboard colors: `razer/keyboard.py`

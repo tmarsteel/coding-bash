@@ -18,4 +18,9 @@ echo "> applying git aliases"
 
 "$SELFDIR/razer/setup.sh"
 
+echo "> setting up custom panel date format"
+"$SELFDIR/install-gnome-shell-extension.sh" "https://extensions.gnome.org/extension-data/panel-date-formatatareao.es.v8.shell-extension.zip"
+echo "* * * * * DISPLAY=:1 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$UID/bus \"$SELFDIR/set-panel-date-format.sh\"" | "$SELFDIR/append-to-crontab.sh"
+dconf write /org/gnome/desktop/interface/clock-show-seconds true
+
 echo "Done. Restart the shell."
