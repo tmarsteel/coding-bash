@@ -112,6 +112,10 @@ sudo ln -s "$(pwd)/greeting/glados.cow" /usr/share/cowsay/cows/glados
 echo "fortune -s glados | cowsay -f glados -W 80" >> ~/.bashrc
 ```
 
+### Razer Keyboard Scripting
+
+Openrazer is installed, together with a cronjob-ed script that updates the coloring: `razer/keyboard.py`.
+
 
 ## Adjusting
 
