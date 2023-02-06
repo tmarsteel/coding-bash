@@ -1,5 +1,7 @@
 #!/bin/bash
 
+awsProfilesWithWarning=(qa prod)
+
 function join_by {
     local delimiter="$1"
     local result=""
@@ -73,13 +75,17 @@ then
   fi
 fi
 
-prodWarning=""
-if [[ "$AWS_PROFILE" =~ prod ]]
-then
-	prodWarning="\[\e[1;91m\]!PROD!"
-fi
+envWarning=""
+for profileName in ${awsProfilesWithWarning[@]}
+do
+	if [[ "$AWS_PROFILE" =~ $profileName ]]
+	then
+		envWarning="\[\e[1;91m\]!${profileName^^}!"
+		break
+	fi
+done
 
-result=$(join_by "\[\e[0m\] " "$repositoryPart" "$prodWarning")
+result=$(join_by "\[\e[0m\] " "$repositoryPart" "$envWarning")
 if [[ "$result" != "" ]]
 then
     # Σ ⑂
