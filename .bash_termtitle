@@ -4,7 +4,7 @@ repositoryRootDir=`basename "$(git rev-parse --show-toplevel 2> /dev/null)"`
 curDir=`pwd`
 codingProjectRootDir="$curDir"
 # Space-Separated: each of these files can signify the root of a coding project (e.g. maven, gradle, cargo, composer, ...)
-codingProjectDetectionFiles=(pom.xml Cargo.toml build.gradle composer.json Vagrantfile package.json docker-compose.yml docker-compose.yaml)
+codingProjectDetectionFiles=(pom.xml Cargo.toml build.gradle build.gradle.kts composer.json Vagrantfile package.json docker-compose.yml docker-compose.yaml)
 
 # Attempt to find a coding project
 for managerFile in ${codingProjectDetectionFiles[@]}; do
