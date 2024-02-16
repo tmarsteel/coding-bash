@@ -53,7 +53,7 @@ def update_coloring(keyboard):
 			keyboard.fx.advanced.matrix[row, col] = base_color_of_key(row, col, screen_locked)
 
 	# disable razer logo
-	keyboard.fx.advanced.matrix[0, cols - 2] = (0, 0, 0)
+	# keyboard.fx.advanced.matrix[0, cols - 2] = (0, 0, 0)
 
 	if screen_locked:
 		keyboard.brightness = 100
