@@ -14,6 +14,8 @@ color_temperature = (200, 0, 0)
 color_locked = (0, 0, 0)
 color_locked_escape_key = (255, 0, 0)
 
+UPDATE_INTERVAL_SECONDS = 5
+
 def main(n_minutes):
 	devman = openrazer.client.DeviceManager()
 	devman.sync_effects = False
@@ -30,12 +32,19 @@ def main(n_minutes):
 	if n_minutes is None:
 		update_coloring(devices[0])
 	else:
-		for i in range((n_minutes * 30) - 1):
-			update_coloring(devices[0])
-			time.sleep(2)
+	  started_at = time.monotonic()
+	  while True:
+	  	update_coloring(devices[0])
+	  	time.sleep(UPDATE_INTERVAL_SECONDS)
+	  	minutes_passed = (time.monotonic() - started_at + UPDATE_INTERVAL_SECONDS) / 60
+	  	if minutes_passed >= 1:
+	  		break
 
 def update_coloring(keyboard):
-	temp_rel = get_temperature_relative()
+	# On Ubuntu 24.04, this takes almost a minute and uses lots of CPU,
+	# therefore disabled for now
+	#temp_rel = get_temperature_relative()
+	temp_rel = 0
 
 	rows, cols = keyboard.fx.advanced.rows, keyboard.fx.advanced.cols
 	indicators = [
@@ -146,9 +155,9 @@ def get_temperatures():
 
 def is_screen_locked():
 	try:
-		result = subprocess.check_output(['gnome-screensaver-command', '--query']).decode('utf-8').lower()
-		deactivated = ('inactive' in result) or ('is not' in result)
-		return not deactivated;
+		result = subprocess.check_output(['dbus-send', '--session', '--type=method_call', '--print-reply', '--dest=org.gnome.ScreenSaver', '/org/gnome/ScreenSaver', 'org.gnome.ScreenSaver.GetActive']).decode('utf-8').lower()
+		active = 'boolean true' in result
+		return active
 	except FileNotFoundError:
 		return False
 

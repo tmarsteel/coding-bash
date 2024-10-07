@@ -13,7 +13,7 @@ function askYesNo {
 }
 
 gitRootDir="$(git rev-parse --show-toplevel 2> /dev/null)"
-currentBranchName="$(git name-rev --no-undefined --name-only HEAD)"
+currentBranchName="$(git name-rev --no-undefined --name-only --exclude "refs/tags/*" HEAD)"
 upstream="$(git branch --points-at HEAD "--format=%(upstream)" "$currentBranchName")"
 localShaBefore="$(git rev-parse --verify -q HEAD)"
 
