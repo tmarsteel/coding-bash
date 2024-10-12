@@ -22,7 +22,7 @@ __prompt_command() {
 
     PS1+='$(echo -ne "\033]0;$($DIR/.bash_termtitle)\007")'
 
-    local gitprompt=`$DIR/.bash_gitprompt`
+    local gitprompt="$($DIR/.bash_gitprompt)"
     PS1+='\[\e[1;32m\]\w\n'
     PS1+="$gitprompt"
     PS1+='\[\e[1;35m\]$PERM_INDICATOR\[\e[0m\] '

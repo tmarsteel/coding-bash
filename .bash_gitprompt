@@ -39,11 +39,8 @@ then
 	if [[ "$repository" != "" ]]
 	then
 
-		branch=$(git rev-parse --short --abbrev-ref=loose HEAD 2>/dev/null)
-		if [ "$branch" == "HEAD" ]
-		then
-				branch=$(git rev-parse --short HEAD 2>/dev/null)
-		fi
+		branch="$(git name-rev --name-only --no-undefined --always HEAD 2>/dev/null)"
+		branch="${branch%^0}"
 
 		nAheadText=
 		nBehindText=
