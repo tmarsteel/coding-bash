@@ -49,19 +49,23 @@ else
   	echo -e "\e[1;31mRebase onto these? [Y/n]\e[0m"
   	doRebase=$(askYesNo)
   	echo
-  	if [[ "$doRebase" == "true" ]]
+  	if [[ "$doRebase" == "false" ]]
   	then
-  		echo -e "\e[2;96m> git rebase --onto $upstream\e[0m"
-  		git rebase --onto "$upstream"
+  	  echo -e "\e[1;32mNot rebasing, not pushing.\e[0m"
+  	  exit 1
+  	fi
 
-  		unmerged="$(git ls-files -u)"
-  		if [[ "$unmerged" != "" ]]
-  		then
-  		  >&2 echo -e "\e[1;31mYou have unresolved conflicts!\e[0m"
-  		  exit 1
-  		fi
+		echo -e "\e[2;96m> git rebase --onto $upstream\e[0m"
+		git rebase --onto "$upstream"
+
+		unmerged="$(git ls-files -u)"
+		if [[ "$unmerged" != "" ]]
+		then
+		  >&2 echo -e "\e[1;31mYou have unresolved conflicts!\e[0m"
+		  exit 1
   	fi
   fi
-  echo -e "\e[2;96m> git push --force-with-lease=$upstreamSha\e[0m"
-	git push "--force-with-lease=$upstreamSha"
+
+	echo -e "\e[2;96m> git push\e[0m"
+  git push
 fi
