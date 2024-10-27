@@ -3,7 +3,7 @@ SELFDIR="$( realpath "$( dirname "${BASH_SOURCE[0]}" )" )"
 
 echo "> Installing Software"
 set -x
-sudo apt-get install jq
+sudo apt-get install jq cowsay fortune
 set +x
 
 echo "> setting up ~/.bashrc"

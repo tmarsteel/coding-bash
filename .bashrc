@@ -1,4 +1,4 @@
-## PROMP
+## PROMPT
 DIR="$( dirname "${BASH_SOURCE[0]}")"
 PS1=
 PROMPT_COMMAND=__prompt_command
@@ -27,3 +27,6 @@ __prompt_command() {
     PS1+="$gitprompt"
     PS1+='\[\e[1;35m\]$PERM_INDICATOR\[\e[0m\] '
 }
+
+## GREETING
+fortune "$DIR/greeting/glados" | cowsay -f "$DIR/greeting/glados.cow" -W 80
