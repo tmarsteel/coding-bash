@@ -11,18 +11,14 @@ then
 fi
 
 SSH_INDICATOR=""
-if [ "$SSH_CLIENT" != "" ]
+if [ "$SSH_CLIENT" != "" ] || [ "$SSH_TTY" != "" ]
 then
-	_SSH_HOST="$(echo $SSH_CLIENT | awk '/./ { print $1 }')"
-else
-	if [ "$SSH_TTY" != "" ]
+	clientIp=$(echo "$SSH_CLIENT" | awk '/./ { print $1 }')
+	if [ "$clientIp" != "127.0.0.1" ]
 	then
-		_SSH_HOST="$(hostname)"
+		host="$(hostname)"
+	  SSH_INDICATOR='\[\e[1;36m\]remote $USER@$host\[\e[0m\] '
 	fi
-fi
-if [ "$_SSH_HOST" != "" ]
-then
-  SSH_INDICATOR='\[\e[1;36m\]$USER@$_SSH_HOST\[\e[0m\] '
 fi
 
 __prompt_command() {
