@@ -49,3 +49,6 @@ if [[ ! "$TERMINAL_EMULATOR" =~ "JediTerm" ]];
 then
 	fortune "$DIR/greeting/glados" | cowsay -f "$DIR/greeting/glados.cow" -W 80
 fi
+
+## ALIASES
+alias ll='ls -lAh'
