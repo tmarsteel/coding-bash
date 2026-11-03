@@ -1,5 +1,3 @@
-#!/bin/bash
-
 repositoryRootDir=`basename "$(git rev-parse --show-toplevel 2> /dev/null)"`
 curDir=`pwd`
 codingProjectRootDir="$curDir"
@@ -62,4 +60,4 @@ else
 	fi
 fi
 
-echo -n $termtitle
+printf "$termtitle"

@@ -54,6 +54,8 @@ precmd() {
 "
     fi
 
+    echo -en "\e]2;$($DIR/.bash_termtitle)\a"
+
     local gitprompt="$($DIR/.bash_gitprompt)"
 
     PS1+="$SSH_INDICATOR"
@@ -74,6 +76,8 @@ if [[ ! "$TERMINAL_EMULATOR" =~ "JediTerm" ]];
 then
 	fortune "$DIR/greeting/glados" | cowsay -f "$DIR/greeting/glados.cow" -W 80
 fi
+
+DISABLE_AUTO_TITLE="true"
 
 ## ALIASES
 alias ll='ls -lAh'
