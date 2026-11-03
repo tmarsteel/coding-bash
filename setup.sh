@@ -16,6 +16,8 @@ ln -s "$SELFDIR/.nanorc" "$HOME/.nanorc"
 echo "> applying git aliases"
 "$SELFDIR/apply-git-aliases.sh"
 
+strfile "$SELFDIR/greeting/glados"
+
 "$SELFDIR/razer/setup.sh"
 
 echo "> setting up custom panel date format"
