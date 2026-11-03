@@ -50,7 +50,7 @@ precmd() {
 
     if [[ "$exitcode" != "0" ]];
     then
-        PS1+="----- exit code: $exitcode -----
+        PS1+="\033[31m----- exit code: $exitcode -----\033[39m
 "
     fi
 
@@ -62,10 +62,11 @@ precmd() {
     then
         CWD="~"
     fi
-    PS1+="$CWD
+    PS1+="\033[1;32m$CWD
 "
     PS1+="$gitprompt"
-    PS1+="$PERM_INDICATOR "
+    PS1+="\033[1;35m$PERM_INDICATOR\033[0m "
+    PS1="$(printf $PS1)"
 }
 
 ## GREETING
