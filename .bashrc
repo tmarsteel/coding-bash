@@ -43,6 +43,31 @@ __prompt_command() {
     PS1+='\[\e[1;35m\]$PERM_INDICATOR\[\e[0m\] '
 }
 
+precmd() {
+    local exitcode="$?"
+
+    PS1=
+
+    if [[ "$exitcode" != "0" ]];
+    then
+        PS1+="----- exit code: $exitcode -----
+"
+    fi
+
+    local gitprompt="$($DIR/.bash_gitprompt)"
+
+    PS1+="$SSH_INDICATOR"
+    CWD="$(pwd)"
+    if [[ "$CWD" == "$HOME" ]];
+    then
+        CWD="~"
+    fi
+    PS1+="$CWD
+"
+    PS1+="$gitprompt"
+    PS1+="$PERM_INDICATOR "
+}
+
 ## GREETING
 if [[ ! "$TERMINAL_EMULATOR" =~ "JediTerm" ]];
 then

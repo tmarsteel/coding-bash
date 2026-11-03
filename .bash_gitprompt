@@ -34,7 +34,7 @@ repositoryPart=""
 if [[ "$repositoryUrl" != "" ]]
 then
 	repositoryUrlBasename=`basename "$repositoryUrl"`
-	repository=`echo "$repositoryUrlBasename" | sed -E 's/(.+?)\.git$/\1/'`
+	repository=`echo "$repositoryUrlBasename" | sed -E 's/^(.+)\.git$/\1/'`
 
 	if [[ "$repository" != "" ]]
 	then
