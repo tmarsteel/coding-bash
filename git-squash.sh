@@ -34,7 +34,7 @@ repositoryRootDir="$(git rev-parse --show-toplevel)"
 # causes an abort if working dir is dirty
 "$SELFDIR/git-dirty.sh"
 
-echo -e "\e[2;96m> git fetch\e[0m"
+printf '\033[2;96m> git fetch\033[0m\n'
 git fetch
 
 defaultBranch="$("$SELFDIR/git-default-branch.sh")"
@@ -66,13 +66,13 @@ git log --format=%B -n $nCommits HEAD > "$commitMessageFile"
 
 echo "Squashing $nToSquash commits onto $(git name-rev --name-only --always $mergebase)"
 
-echo -e "\e[2;96m> git reset --soft HEAD~$nToSquash\e[0m"
+printf '\033[2;96m> git reset --soft HEAD~$nToSquash\033[0m\n'
 git reset --soft HEAD~$nToSquash
 
-echo -e "\e[2;96m> git add $respositoryRootDir\e[0m"
+printf '\033[2;96m> git add $respositoryRootDir\033[0m\n'
 git add "$repositoryRootDir"
 
-echo -e "\e[2;96m> git commit --amend\e[0m"
+printf '\033[2;96m> git commit --amend\033[0m\n'
 git commit --amend --edit "--file=$commitMessageFile"
 
 if [[ "$REBASE" == "1" ]]
@@ -82,6 +82,6 @@ fi
 
 if [[ "$PUSH" == "1" ]]
 then
-	echo -e "\e[2;96m> git push --force-with-lease\e[0m"
+	printf '\033[2;96m> git push --force-with-lease\033[0m\n'
   git push --force-with-lease
 fi

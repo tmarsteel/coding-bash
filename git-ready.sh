@@ -7,7 +7,7 @@ set -e
 
 if [[ "$(git ls-files -u)" != "" ]]
 then
-	>&2 echo -e "\e[1;31mYou have unresolved conflicts in your wokring directory.\e[0m"
+	>&2 printf '\033[1;31mYou have unresolved conflicts in your wokring directory.\033[0m\n'
 	exit 127
 fi
 
@@ -38,24 +38,24 @@ defaultBranch=`$SELFDIR/git-default-branch.sh`
 
 # cleanup & checkout
 
-echo -e "\e[2;96m> git checkout $defaultBranch\e[0m"
+printf '\033[2;96m> git checkout $defaultBranch\033[0m\n'
 git checkout "$defaultBranch"
 
-echo -e "\e[2;96m> git fetch --prune origin\e[0m"
+printf '\033[2;96m> git fetch --prune origin\033[0m\n'
 git fetch --prune origin
 
-echo -e "\e[2;96m> git pull\e[0m"
+printf '\033[2;96m> git pull\033[0m\n'
 git pull
 
-echo -e "\e[2;96m> git prune\e[0m"
+printf '\033[2;96m> git prune\033[0m\n'
 git prune
 
-echo -e "\e[2;96m> delete merged local branches\e[0m"
+printf '\033[2;96m> delete merged local branches\033[0m\n'
 git branch --merged HEAD | grep -v "$defaultBranch" | sed -E 's/^\s*(.+?)\s*$/\1/' | xargs --no-run-if-empty git branch --delete
 
 if [[ "$(($RANDOM % 4))" == "0" ]]
 then
-	echo -e "\e[2;96m> git gc\e[0m"
+	printf '\033[2;96m> git gc\033[0m\n'
 	git gc
 fi
 
@@ -66,16 +66,16 @@ then
 	if [[ "$?" == "0" ]]
 	then
 	  # there already is a remote branch, checkt that one out
-	  echo -e "\e[2;96m> git checkout -b $newBranchName origin/$newBranchName\e[0m"
+	  printf '\033[2;96m> git checkout -b $newBranchName origin/$newBranchName\033[0m\n'
 		git checkout -b "$newBranchName" "origin/$newBranchName"
 	else
-	  echo -e "\e[2;96m> git checkout -b $newBranchName\e[0m"
+	  printf '\033[2;96m> git checkout -b $newBranchName\033[0m\n'
 		git checkout -b "$newBranchName"
 	fi
 fi
 
 if [[ "$workingDirDirty" == "1" ]]
 then
-  echo -e "\e[2;96m> git stash pop\e[0m"
+  printf '\033[2;96m> git stash pop\033[0m\n'
 	git stash pop
 fi

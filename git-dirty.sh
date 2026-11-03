@@ -15,7 +15,7 @@ fi
 
 if [[ "$workingDirDirty" == "1" ]]
 then
-  >&2 echo -e "\e[1;31mYour working directory is dirty.\e[0m"
+  >&2 printf '\033[1;31mYour working directory is dirty.\033[0m\n'
 	exit 127
 fi
 
