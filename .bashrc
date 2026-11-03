@@ -1,20 +1,23 @@
 ## PROMPT
 DIR="$( dirname "${BASH_SOURCE[0]}")"
+if [[ "$DIR" == "." ]]; then
+    DIR="$( dirname "$0" )"
+fi
 PS1=
 PROMPT_COMMAND=__prompt_command
 
 PERM_INDICATOR="λ"
 
-if [ "$EUID" == "0" ]
+if [[ "$EUID" == "0" ]]
 then
     PERM_INDICATOR="Ω"
 fi
 
 SSH_INDICATOR=""
-if [ "$SSH_CLIENT" != "" ] || [ "$SSH_TTY" != "" ]
+if [[ "$SSH_CLIENT" != "" ]] || [ "$SSH_TTY" != "" ]
 then
 	clientIp=$(echo "$SSH_CLIENT" | awk '/./ { print $1 }')
-	if [ "$clientIp" != "127.0.0.1" ]
+	if [[ "$clientIp" != "127.0.0.1" ]]
 	then
 		host="$(hostname)"
 	  SSH_INDICATOR='\[\e[1;36m\]remote $USER@$host\[\e[0m\] '
@@ -26,7 +29,7 @@ __prompt_command() {
 
     PS1=
 
-    if [ "$exitcode" != "0" ];
+    if [[ "$exitcode" != "0" ]];
     then
         PS1+="\[\e[31m\]----- exit code: $exitcode -----\[\e[39m\]\n"
     fi
